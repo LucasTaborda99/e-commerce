@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import taborda.lucas.e_commerce.dto.ProductRequest;
 import taborda.lucas.e_commerce.dto.ProductResponse;
 import taborda.lucas.e_commerce.entity.Product;
+import taborda.lucas.e_commerce.exception.ResourceNotFoundException;
 import taborda.lucas.e_commerce.repository.ProductRepository;
 import taborda.lucas.e_commerce.service.ProductService;
 
@@ -33,7 +34,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponse update(Long id, ProductRequest request) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
         product.setName(request.getName());
         product.setDescription(request.getDescription());
@@ -47,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponse findById(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         return mapToResponse(product);
     }
 
@@ -62,7 +63,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void delete(Long id) {
         if(!productRepository.existsById(id)) {
-            throw new EntityNotFoundException("Product not found");
+            throw new ResourceNotFoundException("Product not found");
         }
         productRepository.deleteById(id);
     }

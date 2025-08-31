@@ -10,16 +10,16 @@ import java.math.BigDecimal;
 
 @Data
 public class ProductRequest {
-    @NotBlank
+    @NotBlank(message = "must not be blank")
     private String name;
 
     private String description;
 
-    @NotNull
-    @Positive
+    @NotNull(message = "price is required")
+    @Positive(message = "price must be greater than zero")
     private BigDecimal price;
 
-    @NotNull
-    @Min(0)
+    @NotNull(message = "stock is required")
+    @Min(value = 0, message = "stock must be zero or greater")
     private Integer stock;
 }
